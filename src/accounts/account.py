@@ -14,3 +14,6 @@ class Account:
                 message=text,
             )
         )
+    
+    def get_number(self):
+        return self._number

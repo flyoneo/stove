@@ -1,2 +1,5 @@
 numpy==1.19.5
 pandas==1.1.5
+grpcio==1.46.3
+grpcio-tools==1.46.3
+python-dotenv==0.20.0

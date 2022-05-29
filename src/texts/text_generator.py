@@ -18,7 +18,7 @@ class TextGenerator:
         self._df_size = len(self._df)
         self._df_fields = set(self._df.columns)
 
-    def random(self, *fields):
+    def randomize(self, *fields):
         """Generates a random text message via a permutation of
         a subset of fields using a uniformly-chosen random row.
 
