@@ -1,0 +1,3 @@
+[submodule "src/proto/accounts"]
+	path = src/proto/accounts
+	url = git@github.com:kingcobra2468/GVMSAPI.git
