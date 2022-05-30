@@ -38,7 +38,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-d',
         '--database-file',
-        help='csv file contain sources for sending text messages',
+        help='csv file containing sources for text generation',
         type=str,
     )
     parser.add_argument(
