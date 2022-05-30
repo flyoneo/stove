@@ -17,7 +17,7 @@ The following flags offer configuration when running stove:
 - **-p/--message-probability=** probability for sending a text. Value must be
   between 0 and 1.
 
-## Recipient file
+### Recipient file
 A recipient file is used to guide a GVoice number to a list of possible
 numbers on which it can send text messages. This is necessary for reputation building
 to take place.
