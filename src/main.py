@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # go through all of the gvoice numbers
     for account in np.random.permutation(accounts):
         for recipient in np.random.permutation(recipient_numbers):
-            time.sleep(random.random() * 5)
+            time.sleep(random.random() * 3600) # randomly sleep up to an hour
             success = randomizer.might_run(
                 lambda: account.send_text(
                     text_generator.randomize(), recipient)
