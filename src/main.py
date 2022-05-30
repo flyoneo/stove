@@ -14,50 +14,61 @@ load_dotenv()
 
 
 def get_recipient_numbers(filename):
-    with open(filename, "r") as fd:
-        contents = [n.strip() for n in fd.readlines()]
-        return contents
+    """Reads the newline seperated recipient numbers from the file.
+
+    Args:
+        filename (str): the path to the recipient file.
+
+    Returns:
+        list(str): a list of the recipients to which to send texts to.
+    """
+    with open(filename, 'r') as fd:
+        return [n.strip() for n in fd.readlines()]
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stove.")
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Stove.')
     parser.add_argument(
-        "-r",
-        "--recipients-file",
+        '-r',
+        '--recipients-file',
         required=True,
-        help="text file containing possible recipients",
+        help='text file containing possible recipients',
         type=str,
     )
     parser.add_argument(
-        "-d",
-        "--database-file",
-        help="csv file contain sources for sending text messages",
+        '-d',
+        '--database-file',
+        help='csv file contain sources for sending text messages',
         type=str,
     )
     parser.add_argument(
-        "-p",
-        "--message-probability",
-        help="probability for sending a text",
+        '-p',
+        '--message-probability',
+        help='probability for sending a text',
         type=float,
         default=0.25,
     )
     args = parser.parse_args()
 
-    text_generator = TextGenerator(args.database_file)
     account_store = AccountStore(
-        os.environ["STOVE_GVMS_HOSTNAME"], os.environ["STOVE_GVMS_PORT"]
+        os.environ['STOVE_GVMS_HOSTNAME'], os.environ['STOVE_GVMS_PORT']
     )
 
+    text_generator = TextGenerator(args.database_file)
+    accounts = account_store.get_accounts()
     randomizer = Randomizer(args.message_probability)
 
-    account_store.setup()
-    accounts = account_store.get_accounts()
     recipient_numbers = get_recipient_numbers(args.recipients_file)
+    # go through all of the gvoice numbers
     for account in np.random.permutation(accounts):
         for recipient in np.random.permutation(recipient_numbers):
             time.sleep(random.random() * 5)
-            ok = randomizer.randomize(
-                lambda: account.send_text(text_generator.randomize(), recipient)
+            success = randomizer.might_run(
+                lambda: account.send_text(
+                    text_generator.randomize(), recipient)
             )
-            if ok:
-                print("Account", account.get_number(), "|", "Recipient", recipient)
+            # the text message was sent successfully (positive sample against
+            # the probabilistic lottery)
+            if success:
+                print('Account', account.get_number(),
+                      '|', 'Recipient', recipient)
