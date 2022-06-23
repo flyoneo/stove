@@ -12,7 +12,7 @@ from adapters.randomizer import Randomizer
 
 load_dotenv()
 
-
+print("sd")
 def get_recipient_numbers(filename):
     """Reads the newline seperated recipient numbers from the file.
 
